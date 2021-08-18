@@ -1,0 +1,40 @@
+/*Core Css*/
+body{
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  background: #f3f3f3;
+}
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #ccc;
+}
+.navbar {
+    border-radius: 0;
+}
+.hr_heading{
+width: 6%
+}
+
+
+
+/*Dashboard*/
+#products_modal .modal-body, #user_modal .modal-body {
+    position: relative;
+    padding: 15px;
+    height: 239px;
+}
+img{
+  border-radius: 5px;
+}
+/*Footer*/
+footer{
+	position: fixed;
+    bottom: 0;
+    width: 100%;
+	background: #777;
+	padding:9px;
+}
+footer .copyright{
+	color: #ccc;
+}
