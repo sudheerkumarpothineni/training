@@ -26,5 +26,8 @@ class Register_model extends CI_Model
 		$this->db->update('users');
 		return $this->db->affected_rows();
 	}
+	function test(){
+		echo "string";
+	}
 }
 ?>
