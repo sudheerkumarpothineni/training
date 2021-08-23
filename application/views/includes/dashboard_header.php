@@ -22,6 +22,7 @@
     <ul class="nav navbar-nav navbar-left">
       <li><a href="<?php echo base_url()?>dashboard"><span class="glyphicon glyphicon-user"></span> Users</a></li>
       <li><a href="<?php echo base_url()?>dashboard/products"><span class="glyphicon glyphicon-gift"></span> &nbsp;Products</a></li>
+      <li><a href="<?php echo base_url()?>dashboard/razorpay"><span class="glyphicon glyphicon-credit-card"></span> &nbsp;Razorpay</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span class="badge" id="total_cart_price">0</span></a></li>

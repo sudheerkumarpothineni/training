@@ -89,5 +89,29 @@ class Dashboard extends CI_Controller
 			echo json_encode($result);
 		}
 	}
+
+	function razorpay(){
+		$this->load->view('includes/dashboard_header');
+		$this->load->view('razorpay');
+		$this->load->view('includes/dashboard_footer');
+	}
+
+	function razorpay_payment_process(){
+		$data=$this->input->post();
+		if ($data) {
+			date_default_timezone_set('Asia/Kolkata');
+			$data['status']='success';
+			$data['payment_date']=date('y-m-d h:i:sa');
+			$result['last_insert_id']=$this->dashboard_model->razorpay_insert($data);
+			$result['status']=SUCCESS;
+		}
+		echo json_encode($result);
+	}
+
+	function razorpay_payment_success(){
+		$this->load->view('includes/dashboard_header');
+		$this->load->view('razorpay_payment_success');
+		$this->load->view('includes/dashboard_footer');
+	}
 }
 ?>

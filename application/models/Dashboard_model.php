@@ -76,5 +76,10 @@ class Dashboard_model extends CI_Model
 		return $this->db->affected_rows();
 
 	}
+
+	function razorpay_insert($data){
+		$this->db->insert('razorpay_payment',$data);
+		return $this->db->insert_id();
+	}
 }
 ?>
