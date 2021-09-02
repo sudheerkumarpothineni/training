@@ -23,11 +23,17 @@
       <li><a href="<?php echo base_url()?>dashboard"><span class="glyphicon glyphicon-user"></span> Users</a></li>
       <li><a href="<?php echo base_url()?>dashboard/products"><span class="glyphicon glyphicon-gift"></span> &nbsp;Products</a></li>
       <li><a href="<?php echo base_url()?>dashboard/razorpay"><span class="glyphicon glyphicon-credit-card"></span> &nbsp;Razorpay</a></li>
+      <li><a href="<?php echo base_url()?>dashboard/nagad"><span class="glyphicon glyphicon-credit-card"></span> &nbsp;Nagad</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span class="badge" id="total_cart_price">0</span></a></li>
-      <li><a><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($this->session->userdata['username']);?></a></li>
-      <li><a href="<?php echo base_url()?>dashboard/signout"><span class="glyphicon glyphicon-log-in"></span> &nbsp;Signout</a></li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> <?php echo ucfirst($this->session->userdata['username']);?>
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="<?php echo base_url()?>dashboard/signout"><span class="glyphicon glyphicon-log-in"></span>Signout</a></li>
+        </ul>
+      </li>
     </ul>
   </div>
 </nav>

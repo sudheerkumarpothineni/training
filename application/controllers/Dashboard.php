@@ -113,5 +113,76 @@ class Dashboard extends CI_Controller
 		$this->load->view('razorpay_payment_success');
 		$this->load->view('includes/dashboard_footer');
 	}
+
+	function nagad(){
+		$this->load->view('includes/dashboard_header');
+		$this->load->view('nagad');
+		$this->load->view('includes/dashboard_footer');
+	}
+
+	function test_nagad(){
+		define('NAGAD_MERCHANT_ID','683002007104225');
+		$data=$this->input->post();
+		$orderId = 'test12345';
+		$sensitiveDataElements = array(
+		  "merchantId" => NAGAD_MERCHANT_ID,
+		  "datetime" => date("Ymdhis"),
+		  "orderId" => $orderId,
+		  "challenge" => bin2hex(rand(000000,99999999999))
+		);
+		$request_method = 'POST';
+		$header = array(
+			'X-KM-IP-V4'=> 'localhost',
+			'X-KM-Client-Type' => 'PC_WEB',
+			'X-KM-Api-Version' => 'v-0.2.0',
+			'Content-Type' => 'application/json'
+		);
+		$request = array(
+			'datetime'=> date("Ymdhis"),
+			'sensitiveData' => $this->sensitiveDataEncryption($sensitiveDataElements),
+			'signature' => $this->signatureCreation($sensitiveDataElements),
+		);
+		$header = json_encode($header);
+		$request = json_encode($request);
+		$url='http://sandbox.mynagad.com:10080/remote-payment-gateway-1.0/api/dfs/check-out/initialize/'.NAGAD_MERCHANT_ID.'/'.$orderId;
+		
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $request);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+			'X-KM-IP-V4'=> 'localhost',
+			'X-KM-Client-Type' => 'PC_WEB',
+			'X-KM-Api-Version' => 'v-0.2.0',
+			'Content-Type' => 'application/json'
+		));
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    	$response__res = curl_exec($curl);
+    	$response__res=json_decode($response__res,true);
+	    debug($response__res);
+	    exit('sudheer');
+	}
+
+	function sensitiveDataEncryption($sensitiveDataElements) 
+	{
+		define('NAGAD_PUBLIC_KEY','-----BEGIN PUBLIC KEY-----
+			MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjBH1pFNSSRKPuMcNxmU5jZ1x8K9LPFM4XSu11m7uCfLUSE4SEjL30w3ockFvwAcuJffCUwtSpbjr34cSTD7EFG1Jqk9Gg0fQCKvPaU54jjMJoP2toR9fGmQV7y9fz31UVxSk97AqWZZLJBT2lmv76AgpVV0k0xtb/0VIv8pd/j6TIz9SFfsTQOugHkhyRzzhvZisiKzOAAWNX8RMpG+iqQi4p9W9VrmmiCfFDmLFnMrwhncnMsvlXB8QSJCq2irrx3HG0SJJCbS5+atz+E1iqO8QaPJ05snxv82Mf4NlZ4gZK0Pq/VvJ20lSkR+0nk+s/v3BgIyle78wjZP1vWLU4wIDAQAB
+			-----END PUBLIC KEY-----');
+		error_reporting(E_ALL);
+		ini_set('display_errors',1);
+		ini_set('display_startup_errors',1);
+		$publicKey = NAGAD_PUBLIC_KEY;
+		$textToEncrypt = implode('',$sensitiveDataElements);
+		$response = openssl_public_encrypt ($textToEncrypt,$crypted,$publicKey,OPENSSL_PKCS1_PADDING);
+		$response = json_decode($response);
+		$response=base64_encode($response->encryptedOutput);
+		return $response;
+
+	}
+	function signatureCreation($sensitiveDataElements) 
+	{
+		$textToEncrypt = json_encode($sensitiveDataElements);
+		$result = hash('sha256', $textToEncrypt);
+		$final_res=base64_encode($result);
+		return $final_res;
+	}
 }
 ?>
